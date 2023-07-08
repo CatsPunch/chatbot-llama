@@ -13,6 +13,7 @@ async-timeout==4.0.2
 attrdict==2.0.1
 attrs==23.1.0
 audioread==3.0.0
+Avatar==0.1
 Babel==2.12.1
 backcall==0.2.0
 beautifulsoup4==4.12.2
@@ -113,6 +114,7 @@ linkify-it-py==2.0.2
 lit==16.0.6
 llama @ file:///mnt/c/LLMs/chatbot-llama/llama
 llama-cpp-python==0.1.68
+llama-index==0.7.2
 llvmlite==0.40.1
 loguru==0.7.0
 lxml==4.9.3
