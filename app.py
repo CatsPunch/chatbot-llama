@@ -5,7 +5,7 @@ import nemo
 import nemo.collections.asr as nemo_asr
 import nemo.collections.tts as nemo_tts
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from gpt_index import SimpleDirectoryReader, GPTListIndex, GPTSimpleVectorIndex, LLMPredictor, PromptHelper
+from llama_index import SimpleDirectoryReader, GPTListIndex, GPTVectorStoreIndex, LLMPredictor, PromptHelper
 from avatar import Avatar
 
 # Initialize Flask app and SocketIO
@@ -38,7 +38,7 @@ def construct_index(directory_path):
     model = AutoModelForCausalLM.from_pretrained(model_name)
     llm_predictor = LLMPredictor(llm=model, temperature=0.7, max_tokens=num_outputs)
     documents = SimpleDirectoryReader(directory_path).load_data()
-    index = GPTSimpleVectorIndex(documents, llm_predictor=llm_predictor, prompt_helper=prompt_helper)
+    index = GPTVectorStoreIndex(documents, llm_predictor=llm_predictor, prompt_helper=prompt_helper)
     index.save_to_disk('index.json')
     return index
 
@@ -76,7 +76,7 @@ def chatbot(input_text):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(model_name)
     llm_predictor = LLMPredictor(llm=model, temperature=0.7, max_tokens=512)
-    index = GPTSimpleVectorIndex.load_from_disk('index.json')
+    index = GPTVectorStoreIndex.load_from_disk('index.json')
     response = index.query(input_text, llm_predictor=llm_predictor, response_mode="compact")
     return response.response
 
